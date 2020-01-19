@@ -66,21 +66,20 @@
 </template>
 
 <script>
-import { NavBar, Row, Col } from 'vant';
-import Pagination from '@/components/Pagination/Pagination'
-import keyValue from '@/config/keyValue.js'
-const Decimal = require('decimal.js')
-
+import { NavBar, Row, Col } from "vant";
+import Pagination from "@/components/Pagination/Pagination";
+import keyValue from "@/config/keyValue.js";
+const Decimal = require("decimal.js");
 
 const config = {
-  topUp: '充值记录',
-  withdraw: '提现记录',
-  invest: '投资记录',
-  incubator: '孵化器收益',
-  introduce: '推荐收益',
-}
+  topUp: "充值记录",
+  withdraw: "提现记录",
+  invest: "资产记录",
+  incubator: "孵化器收益记录",
+  introduce: "分享收益记录"
+};
 export default {
-  name: '',
+  name: "",
   components: {
     [NavBar.name]: NavBar,
     [Row.name]: Row,
@@ -91,7 +90,7 @@ export default {
     return {
       headerObj: {
         fixed: true,
-        title: '投资记录'
+        title: "投资记录"
       },
       // 分页数据
       tableData: {},
@@ -103,8 +102,8 @@ export default {
   },
   created() {},
   mounted() {
-    this.getRecordList({pageNum: 1, pageSize: 10})
-    this.headerObj.title = config[this.$route.params.title]
+    this.getRecordList({ pageNum: 1, pageSize: 10 });
+    this.headerObj.title = config[this.$route.params.title];
   },
   watch: {},
   computed: {},
@@ -112,30 +111,48 @@ export default {
     back() {
       this.$router.goBack();
     },
-    async getRecordList (param) {
-      let res = {}
-      if (this.$route.params.title === 'invest') {
-        res = await this.$api.my.getInvestRecord({page: param.pageNum || 0, pageSize: param.pageSize || 10})
-        this.tableData = res.data.result.interestVOList
-        this.list = res.data.result.interestVOList.list
-      } else if (this.$route.params.title === 'topUp' || this.$route.params.title === 'withdraw') {
-        res = await this.$api.my.getRecord({symbol: this.$route.params.symbol, type: this.$route.params.type, page: param.pageNum || 0, pageSize: param.pageSize || 10})
-        this.tableData = res.data.result
-        this.list = res.data.result.list
-      } else if (this.$route.params.title === 'incubator') {
-        res = await this.$api.my.getReleaseRecord({type: 1, page: param.pageNum || 0, pageSize: param.pageSize || 10})
-        this.tableData = res.data.result.unFrozenList
-        this.list = res.data.result.unFrozenList.list
-      }  else if (this.$route.params.title === 'introduce') {
-        res = await this.$api.my.getBenefitRecord({type: 3, page: param.pageNum || 0, pageSize: param.pageSize || 10})
-        this.tableData = res.data.result.separateVOList
-        this.list = res.data.result.separateVOList.list
+    async getRecordList(param) {
+      let res = {};
+      if (this.$route.params.title === "invest") {
+        res = await this.$api.my.getInvestRecord({
+          page: param.pageNum || 0,
+          pageSize: param.pageSize || 10
+        });
+        this.tableData = res.data.result.interestVOList;
+        this.list = res.data.result.interestVOList.list;
+      } else if (
+        this.$route.params.title === "topUp" ||
+        this.$route.params.title === "withdraw"
+      ) {
+        res = await this.$api.my.getRecord({
+          symbol: this.$route.params.symbol,
+          type: this.$route.params.type,
+          page: param.pageNum || 0,
+          pageSize: param.pageSize || 10
+        });
+        this.tableData = res.data.result;
+        this.list = res.data.result.list;
+      } else if (this.$route.params.title === "incubator") {
+        res = await this.$api.my.getReleaseRecord({
+          type: 1,
+          page: param.pageNum || 0,
+          pageSize: param.pageSize || 10
+        });
+        this.tableData = res.data.result.unFrozenList;
+        this.list = res.data.result.unFrozenList.list;
+      } else if (this.$route.params.title === "introduce") {
+        res = await this.$api.my.getBenefitRecord({
+          type: 3,
+          page: param.pageNum || 0,
+          pageSize: param.pageSize || 10
+        });
+        this.tableData = res.data.result.separateVOList;
+        this.list = res.data.result.separateVOList.list;
       }
-      
     },
     // 列表返回数据
-    returnList (list) {
-      this.list = list
+    returnList(list) {
+      this.list = list;
     }
   },
   destroyed() {}
@@ -143,20 +160,21 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.table-title,.table-row{
+.table-title,
+.table-row {
   padding: 0 10px;
 }
-.table-title{
+.table-title {
   text-align: center;
   height: 40px;
   line-height: 40px;
   background: #273338;
 }
-.table-row{
+.table-row {
   padding: 5px 0;
   text-align: center;
   border-bottom: 1px solid #152b33;
-  .van-col{
+  .van-col {
     line-height: 1.5;
   }
 }

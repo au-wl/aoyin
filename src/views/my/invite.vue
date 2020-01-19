@@ -82,7 +82,7 @@ export default {
     return {
       headerObj: {
         fixed: true,
-        title: '邀请好友',
+        title: '我的团队',
         bindState: '绑定邀请码'
       },
       secode: '',

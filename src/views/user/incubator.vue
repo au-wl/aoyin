@@ -20,6 +20,7 @@
           <img src="~@/assets/image/img/block-btn-bg@2x.png">
           </i>
       </div>
+    <div class="incubator-top-price">{{currentPrice}} kiwi/usdt</div>
     
     <div class="incubator-block" v-for="(item, index) in incubatorList" :key="index">
       <p class="block-title">{{item.name}}</p>
@@ -100,10 +101,9 @@ export default {
       // 投资扣币的费用比例
       fixInvestAmountRate: ['0.9', '0.1'],
       fixInvestAmountRateFee: '900 kiwi + 100 ceo',
-      minVal: 310,
-      maxVal: 2000,
       // 初级孵化金额为准
       amount: 0,
+      currentPrice: 0,
       incubatorList: [
         {
           name: '初级孵化',
@@ -138,13 +138,31 @@ export default {
   watch: {
   },
   computed: {
+    minVal () {
+      const calVal = this.version === 'experience' ? 50 : 310
+      const reVal = parseInt(new Decimal(calVal).dividedBy(this.currentPrice))
+      if (!this.amount) {
+        this.amount = reVal
+      }
+      return reVal
+    },
+    maxVal () {
+      const calVal = this.version === 'experience' ? 300 : 2000
+      return parseInt(new Decimal(calVal).dividedBy(this.currentPrice))
+    }
   },
   mounted() {
+    this.market()
+
+    // 1s更新一次行情
+    if (this.timer) clearInterval(this.timer)
+    this.timer = setInterval(() => {
+      this.market()
+    }, 1000)
+
+    // 版本判断
     this.version = this.$route.params.type
     this.invest_vertype = this.version === 'experience' ? '1' : '2'
-    this.minVal = this.version === 'experience' ? 50 : 310
-    this.maxVal = this.version === 'experience' ? 300 : 2000
-    this.amount = this.minVal
     this.headerObj.title = this.version === 'experience' ? '体验版孵化器' : '旗舰版孵化器'
     this.init()
   },
@@ -248,6 +266,12 @@ export default {
         this.fixInvestAmountRateFee = `${num1} kiwi + ${num2} ceo`
       }
     },
+    // 获取行情
+    async market() {
+      const res = await this.$api.user.market('KIWI_USDT')
+      // console.log(res)
+      this.currentPrice = res.data.result.KIWIUSDT
+    },
     dialogConfirm (action, done) {
       if(action === 'cancel') {
         this.showDialog = false
@@ -280,13 +304,16 @@ export default {
       })
       // console.log(res)
     },
+  },
+  destroyed() {
+    clearInterval(this.timer)
   }
 };
 </script>
 
 <style lang="less" scoped>
 .incubator-wrapper {
-  padding-top: 36px;
+  padding-top: 50px;
   
   .incubator-block {
     position: relative;
@@ -347,6 +374,12 @@ export default {
       margin-top: 10px;
       border: solid 1px #096183;
     }
+  }
+
+  .incubator-top-price {
+    text-align: center;
+    background-color: #15283a;
+    line-height: 30px;
   }
 }
 .text-right {

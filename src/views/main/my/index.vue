@@ -14,10 +14,10 @@
         </div>
       </div>
       <div class="list-item">
-        <van-cell @click="toInvite" icon="ali iconfont iconyaoqinghaoyou" title="邀请好友" is-link />
-        <van-cell @click="toInvestRecord('invest', 'invest')" icon="ali iconfont iconguanggao" title="投资记录" is-link />
+        <van-cell @click="toInvite" icon="ali iconfont iconyaoqinghaoyou" title="我的团队" is-link />
+        <van-cell @click="toInvestRecord('invest', 'invest')" icon="ali iconfont iconguanggao" title="资产记录" is-link />
         <van-cell @click="toInvestRecord('2', 'incubator')" icon="ali iconfont iconguanggao" title="孵化器收益记录" is-link />
-        <van-cell @click="toInvestRecord('3', 'introduce')" icon="ali iconfont iconguanggao" title="推荐收益记录" is-link />
+        <van-cell @click="toInvestRecord('3', 'introduce')" icon="ali iconfont iconguanggao" title="分享收益记录" is-link />
         <!--<van-cell @click="toService" :data-clipboard-text="appConfig.customerInfo" class="copy" icon="ali iconfont iconxiaoxi" title="联系客服" is-link />-->
         <!--<van-cell @click="toOnlineFK" icon="ali iconfont iconkefu" title="在线客服" is-link />-->
         <van-cell @click="toSecurity" icon="ali iconfont iconanquan" title="安全设置" is-link />

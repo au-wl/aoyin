@@ -8,13 +8,13 @@
       <van-col :span="12" class="version-block" @click="toVersion('experience')">
         <span class="version-title-wrapper">
           <p class="version-title font16">孵化体验版</p>
-          <p class="version-subtitle">50~300 起投</p>
+          <p class="version-subtitle">50~300 usdt</p>
         </span>
       </van-col>
       <van-col :span="12" class="version-block" @click="toVersion('flag')">
         <span class="version-title-wrapper">
           <p class="version-title font16">孵化旗舰版</p>
-          <p class="version-subtitle">310~2000 起投</p>
+          <p class="version-subtitle">310~2000 usdt</p>
         </span>
       </van-col>
     </van-row>
